@@ -39,3 +39,14 @@ Here’s a brief "How to Use" section for your GitHub `README.md` file:
 ---
 
 This is a straightforward guide for users to clone and use your app. Adjust the installation commands based on the tech stack you're using.
+
+
+Output
+After launching the app and entering a city name, the following real-time weather information will be displayed:
+
+Temperature
+Humidity
+Wind Speed
+Weather Conditions (e.g., clear skies, rain, etc.)
+The data will refresh dynamically based on the selected city, presented in a clean, user-friendly format.
+
