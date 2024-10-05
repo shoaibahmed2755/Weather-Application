@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Application</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="card">
+        <div class="search">
+            <input type="text" placeholder="Enter City Name" spellcheck="false">
+            <button><img src="search.png" alt=""></button>
+        </div>
+        <div class="error" style="display: none;">
+            <p>Invalid city name</p>
+        </div>
+        <div class="weather" style="display: none;">
+            <img src="rain.png" alt="" class="weather-icon">
+            <h1 class="temp">22°C</h1>
+            <h2 class="city">New York</h2>
+            <div class="details">
+                <div class="col">
+                    <img src="humidity.png" alt="">
+                    <div>
+                        <p class="humidity">50%</p>
+                        <p>Humidity</p>
+                    </div>
+                </div>
+                <div class="col">
+                    <img src="wind.png" alt="">
+                    <div>
+                        <p class="wind">15 km/hr</p>
+                        <p>Wind</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="name">
+        <p class="n">Developed By : Shoaib Ahmed</p>
+    </div>
+    <div class="social-media">
+        <a href="https://www.linkedin.com/in/shoaib-ahmed-b05973274/" target="_blank" class="social-icon"><i class="fab fa-linkedin"></i></a>
+        <a href="https://github.com/shoaibahmed2755" target="_blank" class="social-icon"><i class="fab fa-github"></i></a>
+        <a href="https://www.instagram.com/shoaibahmed__1/" target="_blank" class="social-icon"><i class="fab fa-instagram"></i></a>
+    </div>
+    <script>
+        const apiKey = "7204cf56619b3b37aa54ab218b98d8d3";
+        const searchBox = document.querySelector(".search input");
+        const searchBtn = document.querySelector(".search button");
+
+        async function checkWeather(city) {
+            const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${apiKey}`;
+            const response = await fetch(apiUrl);
+            const data = await response.json();
+
+            if (response.ok) {
+                document.querySelector(".city").innerHTML = data.name;
+                document.querySelector(".temp").innerHTML = `${data.main.temp}°C`;
+                document.querySelector(".humidity").innerHTML = `${data.main.humidity}%`;
+                document.querySelector(".wind").innerHTML = `${data.wind.speed} km/hr`;
+                
+                // Update weather icon
+                const weatherCondition = data.weather[0].main;
+                const weatherIcon = document.querySelector(".weather-icon");
+                if (weatherCondition === "Clouds") {
+                    weatherIcon.src = "cloud.png";
+                } else if (weatherCondition === "Clear") {
+                    weatherIcon.src = "clear.png";
+                } else if (weatherCondition === "Rain") {
+                    weatherIcon.src = "rain.png";
+                } else if (weatherCondition === "Snow") {
+                    weatherIcon.src = "snow.png";
+                }
+
+                // Show weather details
+                document.querySelector(".weather").style.display = "block";
+                document.querySelector(".error").style.display = "none"; // Hide error
+            } else {
+                document.querySelector(".error").style.display = "block"; // Show error
+                document.querySelector(".weather").style.display = "none"; // Hide weather details
+            }
+        }
+
+        searchBtn.addEventListener("click", () => {
+            const city = searchBox.value;
+            if (city) {
+                checkWeather(city);
+            }
+        });
+    </script>
+</body>
+</html>
